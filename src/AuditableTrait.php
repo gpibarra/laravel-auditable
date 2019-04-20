@@ -58,20 +58,6 @@ trait AuditableTrait
     }
 
     /**
-     * Get created by user full name.
-     *
-     * @return string
-     */
-    public function getCreatedByNameAttribute()
-    {
-        if ($this->{$this->getCreatedByColumn()}) {
-            return $this->creator->first_name . ' ' . $this->creator->last_name;
-        }
-
-        return '';
-    }
-
-    /**
      * Get Laravel's user class instance.
      *
      * @return \Illuminate\Database\Eloquent\Model
@@ -83,38 +69,24 @@ trait AuditableTrait
         return new $class;
     }
 
-    /**
-     * Get updated by user full name.
-     *
-     * @return string
-     */
-    public function getUpdatedByNameAttribute()
-    {
-        if ($this->{$this->getUpdatedByColumn()}) {
-            return $this->updater->first_name . ' ' . $this->updater->last_name;
-        }
-
-        return '';
-    }
-
-    /**
-     * Query scope to limit results to own records.
-     *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeOwned(Builder $query)
-    {
-        return $query->where($this->getQualifiedUserIdColumn(), auth()->id());
-    }
-
-    /**
-     * Get qualified column name for user id.
-     *
-     * @return string
-     */
-    public function getQualifiedUserIdColumn()
-    {
-        return $this->getTable() . '.' . $this->getUserInstance()->getKey();
-    }
+//    /**
+//     * Query scope to limit results to own records.
+//     *
+//     * @param \Illuminate\Database\Eloquent\Builder $query
+//     * @return \Illuminate\Database\Eloquent\Builder
+//     */
+//    public function scopeOwned(Builder $query)
+//    {
+//        return $query->where($this->getQualifiedUserIdColumn(), auth()->id());
+//    }
+//
+//    /**
+//     * Get qualified column name for user id.
+//     *
+//     * @return string
+//     */
+//    public function getQualifiedUserIdColumn()
+//    {
+//        return $this->getTable() . '.' . $this->getUserInstance()->getKey();
+//    }
 }

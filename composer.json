@@ -1,12 +1,13 @@
 {
-  "name": "yajra/laravel-auditable",
+  "name": "gpibarra/laravel-auditable",
   "description": "A simple Laravel user auditing package for Eloquent Model.",
   "keywords": [
     "yajra",
     "laravel",
-    "auditable"
+    "auditable",
+    "softDelete"
   ],
-  "homepage": "https://github.com/yajra/laravel-auditable",
+  "homepage": "https://github.com/gpibarra/laravel-auditable",
   "license": "MIT",
   "authors": [
     {
