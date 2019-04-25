@@ -15,7 +15,9 @@ class AuditableWithSoftDeletesTraitObserver extends AuditableTraitObserver
     {
         // DB::beginTransaction();
         $user_id = $this->getAuthenticatedUserId();
-        $model->updated_by = $user_id;
+        if ($model->usesTimestamps()) {
+            $model->updated_by = $user_id;
+        }
         $model->deleted_by = $user_id;
 
     }
@@ -28,7 +30,10 @@ class AuditableWithSoftDeletesTraitObserver extends AuditableTraitObserver
     public function restoring(Model $model)
     {
         if (! $model->isDirty('updated_by')) {
-            $model->updated_by = $this->getAuthenticatedUserId();
+            if ($model->usesTimestamps()) {
+                $user_id = $this->getAuthenticatedUserId();
+                $model->updated_by = $user_id;
+            }
         }
         $model->deleted_by = null;
     }

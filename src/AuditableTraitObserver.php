@@ -13,12 +13,15 @@ class AuditableTraitObserver
      */
     public function creating(Model $model)
     {
+        $user_id = $this->getAuthenticatedUserId();
         if (! $model->created_by) {
-            $model->created_by = $this->getAuthenticatedUserId();
+            $model->created_by = $user_id;
         }
 
         if (! $model->updated_by) {
-            $model->updated_by = $this->getAuthenticatedUserId();
+            if ($model->usesTimestamps()) {
+                $model->updated_by = $user_id;
+            }
         }
     }
 
@@ -39,9 +42,10 @@ class AuditableTraitObserver
      */
     public function updating(Model $model)
     {
-        if ($model->timestamps) {
-            if (! $model->isDirty('updated_by')) {
-                $model->updated_by = $this->getAuthenticatedUserId();
+        if (! $model->isDirty('updated_by')) {
+            if ($model->usesTimestamps()) {
+                $user_id = $this->getAuthenticatedUserId();
+                $model->updated_by = $user_id;
             }
         }
     }
