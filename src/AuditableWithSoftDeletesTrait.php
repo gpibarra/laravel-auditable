@@ -3,8 +3,10 @@
 namespace Yajra\Auditable;
 
 
-trait AuditableWithSoftDeletesTrait extends Auditable
+trait AuditableWithSoftDeletesTrait
 {
+    use SoftDeletes;
+    use AuditableTrait;
     /**
      * Boot the audit trait for a model.
      *
@@ -26,13 +28,13 @@ trait AuditableWithSoftDeletesTrait extends Auditable
     }
 
     /**
-     * Get column name for updated by.
+     * Get column name for deleted by.
      *
      * @return string
      */
-    protected function getUpdatedByColumn()
+    protected function getDeletedByColumn()
     {
-        return 'updated_by';
+        return 'deleted_by';
     }
 
 }

@@ -14,25 +14,10 @@ class AuditableWithSoftDeletesTraitObserver extends AuditableTraitObserver
     public function deleting(Model $model)
     {
         // DB::beginTransaction();
-    }
+        $user_id = $this->getAuthenticatedUserId();
+        $model->updated_by = $user_id;
+        $model->deleted_by = $user_id;
 
-    /**
-     * Model's deleted event hook.
-     *
-     * @param Model $model
-     */
-    public function deleted(Model $model)
-    {
-        $query = $model->setKeysForSaveQuery($model->newModelQuery());
-
-        $columns = [$this->getUpdatedByColumn() => $this->getAuthenticatedUserId()];
-        $this->{$this->getUpdatedByColumn()} = $this->getAuthenticatedUserId();
-        $columns[$this->getDeletedByColumn()] = $this->getAuthenticatedUserId();
-        $this->{$this->getDeletedByColumn()} = $this->getAuthenticatedUserId();
-
-        $query->update($columns);
-
-        // DB::commit();
     }
 
     /**
